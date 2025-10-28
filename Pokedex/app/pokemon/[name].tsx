@@ -76,7 +76,7 @@ export default function PokemonDetail() {
           onPress={() => toggleFavorite(show.name)}
           style={[
             styles.favoriteBtn,
-            { backgroundColor: isFavorite(show.name) ? "#F42A28" : "#37A5C6" },
+            { backgroundColor: isFavorite(show.name) ? "#F42A28" : "#3e7d17ff" },
           ]}
         >
           <Text style={styles.favoriteBtnText}>
@@ -153,10 +153,10 @@ export default function PokemonDetail() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F0F2F6",
+    backgroundColor: "#3e7d17ff",
   },
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#f0ffe6ff",
     margin: 16,
     borderRadius: 24,
     padding: 20,
@@ -174,11 +174,11 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 26,
     fontWeight: "800",
-    color: "#37A5C6",
+    color: "#000000ff",
   },
   id: {
     fontSize: 18,
-    color: "#AAB3C7",
+    color: "#777777ff",
   },
   favoriteBtn: {
     paddingHorizontal: 20,
@@ -200,12 +200,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#716B45",
+    color: "#000000ff",
     marginBottom: 8,
   },
   paragraph: {
     fontSize: 14,
-    color: "#555",
+    color: "#4c4c4cff",
     lineHeight: 20,
   },
   typesRow: {
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   typeTag: {
-    backgroundColor: "#53A063",
+    backgroundColor: "#4dad11ff",
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 50,
@@ -228,18 +228,18 @@ const styles = StyleSheet.create({
   statRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#F9FAFB",
+    backgroundColor: "#ffffffff",
     padding: 8,
     borderRadius: 10,
     marginVertical: 4,
   },
   statName: {
-    color: "#37A5C6",
+    color: "#363635ff", 
     fontWeight: "600",
     textTransform: "capitalize",
   },
   statValue: {
-    color: "#716B45",
+    color: "#545852ff",
     fontWeight: "700",
   },
   move: {
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   evoTag: {
-    backgroundColor: "#AAB3C7",
+    backgroundColor: "#4dad11ff",
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 8,

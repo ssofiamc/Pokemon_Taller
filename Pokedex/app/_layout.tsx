@@ -4,19 +4,15 @@ import { Stack } from "expo-router";
 import { SafeAreaView, StatusBar, Platform } from "react-native";
 import { FavoritesProvider } from "./context/FavoritesContext";
 
-/**
- * 🎨 Tema visual: Paleta pastel y luminosa
- * Inspirada en la Pokédex App (Dribbble)
- */
 export const THEME = {
-  background: "#F0F2F6", // Fondo general
+  background: "#f0ffe6ff", // Fondo general
   white: "#FFFFFF",
   muted: "#AAB3C7", // Gris pastel suave
   accent: "#37A5C6", // Azul claro (botones, links)
   success: "#14A06F", // Verde acento
   green: "#53A063", // Verde suave (categorías)
   danger: "#F42A28", // Rojo acento (acciones importantes)
-  brown: "#716B45", // Marrón neutro (texto principal)
+  brown: "#000000ff", // Marrón neutro (texto principal)
   textPrimary: "#333333",
   textSecondary: "#555555",
 };

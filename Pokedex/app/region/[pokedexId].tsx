@@ -34,7 +34,7 @@ export default function RegionPage() {
         {data?.name || `Pokedex ${pokedexId}`}
       </Text>
       <RegionPokemonsList entries={entries} fetchPokemonByName={function (name: string): Promise<any> {
-        throw new Error("Function not implemented.");
+        throw new Error("Error: Función no implementada.");
       } } />
     </View>
   );
