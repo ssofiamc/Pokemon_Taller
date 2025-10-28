@@ -53,8 +53,8 @@ export default function Regions() {
 
 // 🎨 Paleta de colores pastel con acentos vivos
 const COLORS = [
-  "#caa9ffff", // Fondo claro neutro
-  "#8fb2ffff", // Gris suave
+  "#dea6feff", // Fondo claro neutro
+  "#94d6ffff", // Gris suave
   "rgba(139, 255, 230, 1)", // Rojo brillante
   "#76ffcdff", // Verde acento
   "#fdfd5fff", // Azul acento
