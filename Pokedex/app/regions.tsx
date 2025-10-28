@@ -1,6 +1,10 @@
 // app/regions.tsx
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { View, 
+        Text, 
+        FlatList, 
+        TouchableOpacity, 
+        StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 
 /**
@@ -49,25 +53,25 @@ export default function Regions() {
 
 // 🎨 Paleta de colores pastel con acentos vivos
 const COLORS = [
-  "#F0F2F6", // Fondo claro neutro
-  "#AAB3C7", // Gris suave
-  "#F42A28", // Rojo brillante
-  "#14A06F", // Verde acento
-  "#37A5C6", // Azul acento
-  "#716B45", // Marrón suave
-  "#53A063", // Verde medio
+  "#caa9ffff", // Fondo claro neutro
+  "#8fb2ffff", // Gris suave
+  "rgba(139, 255, 230, 1)", // Rojo brillante
+  "#76ffcdff", // Verde acento
+  "#fdfd5fff", // Azul acento
+  "#ff9c4bff", // Marrón suave
+  "#ff786cff", // Verde medio
 ];
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F0F2F6",
+    backgroundColor: "#f0ffe6ff",
     padding: 20,
   },
   title: {
     fontSize: 26,
     fontWeight: "800",
-    color: "#37A5C6",
+    color: "#000000ff",
     marginBottom: 16,
     textAlign: "center",
   },
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
     marginBottom: 12,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#000000ff",
     borderWidth: 1,
     borderColor: "#E0E4EB",
     shadowColor: "#000",
@@ -86,12 +90,12 @@ const styles = StyleSheet.create({
   regionName: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#FFFFFF",
+    color: "#000000ff",
     marginBottom: 4,
   },
   regionId: {
     fontSize: 14,
-    color: "#F0F2F6",
+    color: "#424242ff",
     opacity: 0.9,
   },
 });

@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   favText: {
-    color: "#37A5C6",
+    color: "#000000ff",
     fontWeight: "700",
     fontSize: 14,
   },
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   offlineText: {
-    color: "#FFFFFF",
+    color: "#000000ff",
     fontWeight: "600",
     textAlign: "center",
   },
