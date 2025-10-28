@@ -1,6 +1,12 @@
 // app/pokemon/[name].tsx
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native";
+import { View, 
+        Text, 
+        Image, 
+        ScrollView, 
+        TouchableOpacity, 
+        ActivityIndicator, 
+        StyleSheet } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import useApi from "./../hooks/useApi";
 import { getPokemon, getPokemonSpecies, getEvolutionChainById } from "./../services/pokeApi";

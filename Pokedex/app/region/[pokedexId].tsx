@@ -1,6 +1,8 @@
 // app/region/[pokedexId].tsx
 import React from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, 
+        Text, 
+        ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import useApi from "./../hooks/useApi";
 import { getPokedex } from "./../services/pokeApi";
