@@ -153,10 +153,10 @@ export default function PokemonDetail() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3e7d17ff",
+    backgroundColor: "#dfffcaff",
   },
   card: {
-    backgroundColor: "#f0ffe6ff",
+    backgroundColor: "#ffffffff",
     margin: 16,
     borderRadius: 24,
     padding: 20,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   statRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#ffffffff",
+    backgroundColor: "#dfffcaff",
     padding: 8,
     borderRadius: 10,
     marginVertical: 4,
