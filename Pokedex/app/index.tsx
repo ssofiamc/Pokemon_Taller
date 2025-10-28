@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, Stack } from "expo-router";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { useFavorites } from "./context/FavoritesContext";
 import { getTypes } from "./services/pokeApi";
@@ -129,19 +129,6 @@ export default function Home() {
         <Text style={styles.regionBtnText}>🌍 Explorar por Regiones</Text>
       </TouchableOpacity>
 
-      <Text style={styles.sectionTitle}>Tipos</Text>
-      <FlatList
-        horizontal
-        data={types || []}
-        keyExtractor={(t: any) => t.name}
-        renderItem={({ item }: any) => (
-          <View style={styles.typePill}>
-            <Text style={styles.typeText}>{item.name}</Text>
-          </View>
-        )}
-        style={{ maxHeight: 52 }}
-        showsHorizontalScrollIndicator={false}
-      />
 
       <Text style={styles.sectionTitle}>Favoritos</Text>
       {favorites.length === 0 ? (
@@ -168,12 +155,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#F0F2F6",
+    backgroundColor: "#f0ffe6ff",
   },
   title: {
     fontSize: 28,
     fontWeight: "800",
-    color: "#37A5C6",
+    color: "#000000ff",
     marginBottom: 16,
     textAlign: "center",
   },
@@ -189,10 +176,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
     height: 48,
     borderWidth: 1,
-    borderColor: "#E0E4EB",
+    borderColor: "#3e7d17ff",
   },
   searchBtn: {
-    backgroundColor: "#14A06F",
+    backgroundColor: "#3e7d17ff",
     paddingHorizontal: 16,
     justifyContent: "center",
     borderRadius: 12,
@@ -212,7 +199,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#E0E4EB",
+    borderColor: "#3e7d17ff",
   },
   regionBtnText: {
     color: "#716B45",
@@ -223,7 +210,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontWeight: "700",
     fontSize: 18,
-    color: "#F42A28",
+    color: "#3e7d17ff",
   },
   typePill: {
     paddingHorizontal: 14,
