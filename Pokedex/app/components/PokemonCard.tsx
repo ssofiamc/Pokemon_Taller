@@ -1,5 +1,6 @@
 // components/PokemonCard.tsx
 import React, { useMemo, useState, useEffect } from "react";
+// Importa React y los hooks para manejo de estado, memorization y efectos secundarios
 import {
   View,
   Text,
@@ -8,30 +9,36 @@ import {
   StyleSheet,
   Platform,
 } from "react-native";
+// Componentes base para construir la UI en React Native
 import { useRouter } from "expo-router";
+// Hook para navegación programática
 import { useFavorites } from "../context/FavoritesContext";
+// Hook personalizado para manejar la lógica de favoritos
 import { THEME } from "./../_layout";
+// Importa la paleta de colores y estilos globales
 
+// Define las props que el componente recibe con tipos
 type Props = {
-  id: number; // puede ser entry_number (regional) o national id; no lo usamos como fallback numérico
-  name: string;
-  sprites?: any;
-  types?: { type: { name: string } }[];
+  id: number; // ID del Pokémon (puede ser regional o nacional)
+  name: string; // Nombre del Pokémon
+  sprites?: any; // Objeto con imágenes y sprites del Pokémon
+  types?: { type: { name: string } }[]; // Array con los tipos (agua, fuego, etc.)
 };
 
 export default function PokemonCard({ id, name, sprites, types }: Props) {
-  const router = useRouter();
-  const { toggleFavorite, isFavorite } = useFavorites();
-  const fav = isFavorite(name);
+  const router = useRouter(); // Hook para navegación
+  const { toggleFavorite, isFavorite } = useFavorites(); // Manejo de favoritos
+  const fav = isFavorite(name); // Verifica si el Pokémon está en favoritos
 
   const [imageBroken, setImageBroken] = useState(false);
+  // Estado para detectar si la imagen ha fallado al cargar y evitar reintentos infinitos
 
-  // Resetea el flag de imagen rota cuando cambian nombre o sprites (evita "arrastre" entre regiones)
+  // Efecto que reinicia el flag de imagen rota cuando cambia nombre o sprites
   useEffect(() => {
     setImageBroken(false);
   }, [name, sprites]);
 
-  // Preferimos artwork oficial del objeto `sprites` si está disponible
+  // Memoiza la URI del artwork oficial para mejorar rendimiento
   const officialArtwork = useMemo(
     () =>
       sprites?.other?.["official-artwork"]?.front_default ||
@@ -40,21 +47,15 @@ export default function PokemonCard({ id, name, sprites, types }: Props) {
     [sprites]
   );
 
-  // Fallback basado en *nombre* (más seguro que usar index regional)
-  // img.pokemondb.net suele tener artwork por nombre en minúsculas.
+  // Memoiza la URL fallback basada en el nombre para imagen si no hay artwork oficial
   const fallbackByName = useMemo(() => {
     if (!name) return null;
-    // normalizamos el nombre para la URL (minusculas). Ajusta si tus nombres vienen con formas especiales.
-    const safeName = encodeURIComponent(name.toLowerCase());
+    const safeName = encodeURIComponent(name.toLowerCase()); // Normaliza nombre para URL
     return `https://img.pokemondb.net/artwork/large/${safeName}.jpg`;
   }, [name]);
 
-  const displayName = useMemo(
-    () => (name ? name.charAt(0).toUpperCase() + name.slice(1) : ""),
-    [name]
-  );
-
-  // Escogemos la uri efectiva: primero el artwork del objeto sprites, si no, el fallback por nombre
+  // Selecciona la URI de imagen que se mostrará:
+  // Prefiere artwork oficial, si no disponible usa fallback, si imagen rota no muestra nada
   const chosenUri =
     !imageBroken && typeof officialArtwork === "string" && officialArtwork.length > 0
       ? officialArtwork
@@ -64,39 +65,40 @@ export default function PokemonCard({ id, name, sprites, types }: Props) {
 
   return (
     <TouchableOpacity
-      onPress={() => router.push(`/pokemon/${name}`)}
+      onPress={() => router.push(`/pokemon/${name}`)} // Navega a detalle al presionar tarjeta
       style={styles.card}
       accessibilityRole="button"
-      accessibilityLabel={`Ir a la ficha de ${displayName}`}
+      accessibilityLabel={`Ir a la ficha de ${name.charAt(0).toUpperCase() + name.slice(1)}`}
       activeOpacity={0.85}
     >
       <View style={styles.spriteContainer}>
+        {/* Imagen del Pokémon o marcador si no hay imagen */}
         {chosenUri ? (
           <Image
             source={{ uri: chosenUri }}
             style={styles.sprite}
             resizeMode="contain"
-            onError={() => {
-              // si la imagen no carga marcamos como rota para no reintentar infinitamente
-              setImageBroken(true);
-            }}
-            accessibilityLabel={`${displayName} imagen`}
+            onError={() => setImageBroken(true)} // Marca imagen rota si falla
+            accessibilityLabel={`${name.charAt(0).toUpperCase() + name.slice(1)} imagen`}
           />
         ) : (
           <View style={styles.placeholder} accessibilityLabel="Imagen no disponible">
-            <Text style={styles.placeholderText}>{displayName.charAt(0)}</Text>
+            <Text style={styles.placeholderText}>{name.charAt(0).toUpperCase()}</Text>
           </View>
         )}
       </View>
 
       <View style={styles.info}>
         <View style={styles.headerRow}>
+          {/* Nombre con mayúscula inicial */}
           <Text style={styles.name} numberOfLines={1}>
-            {displayName}
+            {name.charAt(0).toUpperCase() + name.slice(1)}
           </Text>
+          {/* ID del Pokémon */}
           <Text style={styles.idText}>#{id}</Text>
         </View>
 
+        {/* Tipos del Pokémon */}
         <View style={styles.typesRow}>
           {types?.map((t) => (
             <View key={t.type.name} style={styles.typePill}>
@@ -108,6 +110,7 @@ export default function PokemonCard({ id, name, sprites, types }: Props) {
         </View>
       </View>
 
+      {/* Botón para agregar o quitar de favoritos */}
       <TouchableOpacity
         onPress={() => toggleFavorite(name)}
         style={[styles.favorite, fav ? styles.favOn : styles.favOff]}
@@ -123,10 +126,11 @@ export default function PokemonCard({ id, name, sprites, types }: Props) {
   );
 }
 
+// Estilos para el componente carta Pokémon
 const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center",       
     backgroundColor: THEME.white,
     paddingVertical: 14,
     paddingHorizontal: 14,
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: "#F2F2F2",
-    ...Platform.select({
+    ...Platform.select({        
       ios: {
         shadowColor: "#000",
         shadowOpacity: 0.08,
@@ -150,11 +154,11 @@ const styles = StyleSheet.create({
   spriteContainer: {
     width: 78,
     height: 78,
-    borderRadius: 78 / 2,
+    borderRadius: 39,
     backgroundColor: THEME.background,
     justifyContent: "center",
     alignItems: "center",
-    overflow: "hidden",
+    overflow: "hidden",         
   },
   sprite: {
     width: 64,
@@ -164,7 +168,7 @@ const styles = StyleSheet.create({
   placeholder: {
     width: 64,
     height: 64,
-    borderRadius: 64 / 2,
+    borderRadius: 32,
     backgroundColor: "#E6E9EE",
     justifyContent: "center",
     alignItems: "center",
@@ -189,11 +193,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: THEME.brown,
     letterSpacing: 0.2,
-    flexShrink: 1,
+    flexShrink: 1,            
   },
   idText: {
     fontSize: 13,
-    color: THEME.muted ? THEME.muted : "#9AA0A6",
+    color: THEME.muted || "#9AA0A6",
     marginLeft: 8,
     opacity: 0.9,
   },
@@ -205,7 +209,7 @@ const styles = StyleSheet.create({
   typePill: {
     paddingVertical: 6,
     paddingHorizontal: 10,
-    borderRadius: 999,
+    borderRadius: 999,        
     backgroundColor: THEME.muted,
     marginRight: 8,
     marginBottom: 6,
@@ -231,7 +235,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.danger,
   },
   favOff: {
-    backgroundColor: THEME.background,
+    backgroundColor: THEME.background, 
   },
   favText: {
     fontSize: 14,
