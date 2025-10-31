@@ -1,54 +1,57 @@
 // app/index.tsx
 import React, { useState, useMemo, memo } from "react";
+// Importa los hooks y componentes de React necesarios
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Image,
+      View,            // Contenedor visual para layout
+      Text,            // Componente para mostrar texto
+      TextInput,       // Campo para ingresar texto
+      TouchableOpacity, // Botón táctil
+      FlatList,        // Lista optimizada para muchos elementos
+      StyleSheet,      // Módulo para definir estilos en línea
+      Image,           // Componente para mostrar imágenes
 } from "react-native";
-import { useRouter, Stack } from "expo-router";
-import useNetworkStatus from "./hooks/useNetworkStatus";
-import { useFavorites } from "./context/FavoritesContext";
-import { getTypes } from "./services/pokeApi";
-import useApi from "./hooks/useApi";
+import { useRouter } from "expo-router"; // Navegación tipo hook router
+import useNetworkStatus from "./hooks/useNetworkStatus"; // Hook personalizado para saber si hay internet
+import { useFavorites } from "./context/FavoritesContext"; // Hook de contexto de favoritos
+import { getTypes } from "./services/pokeApi"; // Servicio para obtener tipos de Pokémon
+import useApi from "./hooks/useApi"; // Hook personalizado para llamadas a APIs
 
+// Componente principal de la HomePage
 export default function Home() {
-  const router = useRouter();
-  const { isConnected } = useNetworkStatus();
-  const { data: types } = useApi(() => getTypes(), []);
-  const [query, setQuery] = useState("");
-  const { favorites, favoritesData } = useFavorites();
+  const router = useRouter(); // Hook de navegación
+  const { isConnected } = useNetworkStatus(); // Estado de conexión a internet
+  const { data: types } = useApi(() => getTypes(), []); // Llama a API para traer tipos
+  const [query, setQuery] = useState(""); // Estado para el texto de búsqueda
+  const { favorites, favoritesData } = useFavorites(); // Favoritos y sus datos completos
 
+// Función para buscar un Pokémon por nombre/ID
   const onSearch = () => {
-    if (!query) return;
-    router.push(`/pokemon/${query.toLowerCase()}`);
-    setQuery("");
+    if (!query) return; // Si la búsqueda está vacía, no hace nada
+    router.push(`/pokemon/${query.toLowerCase()}`); // Navega a la página del Pokémon buscado
+    setQuery(""); // Limpia el campo de búsqueda
   };
 
-  // Item visual para cada favorito — memoizado
+  // Componente memoizado que pinta una tarjeta para un Pokémon favorito
   const FavoriteCard = memo(function FavoriteCard({
-    item,
-    d,
+    item, // Nombre o ID del Pokémon favorito
+    d, // Datos completos del favorito
   }: {
     item: string;
     d: any;
   }) {
-    const [imageBroken, setImageBroken] = useState(false);
+    const [imageBroken, setImageBroken] = useState(false); // Maneja si la imagen ha fallado al cargar
 
-    const nameOrItem = d?.name || item;
+    const nameOrItem = d?.name || item; // Nombre preferido, usa nombre de datos si existe
     const displayName = useMemo(
       () => (nameOrItem ? nameOrItem.charAt(0).toUpperCase() + nameOrItem.slice(1) : item),
       [nameOrItem, item]
-    );
+    ); // Capitaliza el nombre que se mostrará
 
-    // preferimos sprite cacheado
+    // Selecciona sprite oficial si existe (preferido)
     const officialArtwork =
       d?.sprites?.other?.["official-artwork"]?.front_default || d?.sprites?.front_default || null;
 
-    // fallback por nombre (si no hay sprite cacheado)
+    // Si no hay sprite cacheado, crea URL estática por nombre
     const fallbackByName =
       nameOrItem && typeof nameOrItem === "string"
         ? `https://img.pokemondb.net/artwork/large/${encodeURIComponent(
@@ -56,6 +59,7 @@ export default function Home() {
           )}.jpg`
         : null;
 
+    // Usa la imagen preferida disponible, o null si ninguna sirve
     const chosenUri =
       !imageBroken && officialArtwork
         ? officialArtwork
@@ -63,18 +67,19 @@ export default function Home() {
         ? fallbackByName
         : null;
 
+    // Render de la tarjeta de favorito
     return (
       <TouchableOpacity
         style={styles.favCard}
-        onPress={() => router.push(`/pokemon/${item}`)}
+        onPress={() => router.push(`/pokemon/${item}`)} // Navega al detalle al presionar
         activeOpacity={0.85}
       >
         {chosenUri ? (
           <Image
-            source={{ uri: chosenUri }}
+            source={{ uri: chosenUri }} // Imagen del Pokémon
             style={styles.favImage}
             resizeMode="contain"
-            onError={() => setImageBroken(true)}
+            onError={() => setImageBroken(true)} // Si falla la imagen, usa fallback
             accessibilityLabel={`${displayName} imagen`}
           />
         ) : (
@@ -85,6 +90,7 @@ export default function Home() {
           </View>
         )}
 
+        {/* Metadatos del Pokémon favorito: nombre y número */}
         <View style={styles.favMeta}>
           <Text style={styles.favText} numberOfLines={1}>
             {displayName}
@@ -95,8 +101,10 @@ export default function Home() {
     );
   });
 
+  // Render principal de la pantalla
   return (
     <View style={styles.container}>
+      {/* Si estamos offline muestra banner */}
       {!isConnected && (
         <View style={styles.offlineBanner}>
           <Text style={styles.offlineText}>
@@ -105,8 +113,9 @@ export default function Home() {
         </View>
       )}
 
+      {/* Título de la aplicación */}
       <Text style={styles.title}>Pokédex App</Text>
-
+      {/* Barra de búsqueda */}
       <View style={styles.row}>
         <TextInput
           placeholder="Buscar por nombre o ID"
@@ -122,23 +131,23 @@ export default function Home() {
         </TouchableOpacity>
       </View>
 
+      {/* Botón para navegar a regiones */}
       <TouchableOpacity
         onPress={() => router.push("/regions")}
-        style={styles.regionBtn}
-      >
+        style={styles.regionBtn}>
         <Text style={styles.regionBtnText}>🌍 Explorar por Regiones</Text>
       </TouchableOpacity>
 
-
+      {/* Lista de favoritos */}
       <Text style={styles.sectionTitle}>Favoritos</Text>
       {favorites.length === 0 ? (
         <Text style={styles.emptyText}>No hay favoritos aún.</Text>
       ) : (
         <FlatList
-          data={favorites}
+          data={favorites} // Lista de Keys de Pokémon favoritos
           horizontal
           renderItem={({ item }) => {
-            const d = favoritesData[item];
+            const d = favoritesData[item]; // Trae datos completos
             return <FavoriteCard item={item} d={d} />;
           }}
           keyExtractor={(i) => i}
@@ -150,7 +159,7 @@ export default function Home() {
   );
 }
 
-// 🎨 Paleta mejorada — luminosa y moderna
+// Definición de todos los estilos usados en la pantalla.
 const styles = StyleSheet.create({
   container: {
     flex: 1,
