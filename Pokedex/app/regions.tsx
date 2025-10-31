@@ -1,17 +1,15 @@
 // app/regions.tsx
 import React from "react";
+// Importa React para crear el componente funcional
 import { View, 
         Text, 
         FlatList, 
         TouchableOpacity, 
         StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
+// Importa componentes básicos de React Native para UI
+import { useRouter } from "expo-router"; // Importa el hook de navegación de Expo Router
 
-/**
- * Lista de regiones con estilo visual refinado.
- * Paleta luminosa y acentos vivos inspirados en la guía de estilo.
- */
-
+// Define las regiones Pokémon con su clave, etiqueta y ID de Pokédex
 const REGION_TO_POKEDEX: { key: string; label: string; id: number }[] = [
   { key: "kanto", label: "Kanto (I)", id: 2 },
   { key: "johto", label: "Johto (II)", id: 3 },
@@ -24,34 +22,39 @@ const REGION_TO_POKEDEX: { key: string; label: string; id: number }[] = [
   { key: "paldea", label: "Paldea (IX)", id: 32 },
 ];
 
+// Componente principal de la pantalla de regiones
 export default function Regions() {
-  const router = useRouter();
+  const router = useRouter(); // Hook para la navegación programática
 
   return (
     <View style={styles.container}>
+      {/* Título de la pantalla */}
       <Text style={styles.title}>🌍 Regiones Pokémon</Text>
+      {/* Lista de regiones usando FlatList para rendimiento y scroll */}
       <FlatList
-        data={REGION_TO_POKEDEX}
-        keyExtractor={(i) => String(i.id)}
+        data={REGION_TO_POKEDEX} // Fuente de datos, array de regiones
+        keyExtractor={(i) => String(i.id)} // Cada item usa su ID como clave única
         renderItem={({ item, index }) => (
+          // Cada región es una tarjeta táctil
           <TouchableOpacity
-            onPress={() => router.push(`/region/${item.id}`)}
+            onPress={() => router.push(`/region/${item.id}`)} // Navega a la pantalla de la región al tocar
             style={[
               styles.regionCard,
-              { backgroundColor: COLORS[index % COLORS.length] },
-            ]}
-          >
+              { backgroundColor: COLORS[index % COLORS.length] }, // Color de fondo según la posición
+            ]}>
+              {/* Nombre visual de la región */}
             <Text style={styles.regionName}>{item.label}</Text>
+            {/* ID visual de la región */}
             <Text style={styles.regionId}>Pokédex ID: {item.id}</Text>
           </TouchableOpacity>
         )}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false} // Oculta scroll visual vertical
       />
     </View>
   );
 }
 
-// 🎨 Paleta de colores pastel con acentos vivos
+// Definición de colores para las tarjetas de región
 const COLORS = [
   "#dea6feff", // Fondo claro neutro
   "#94d6ffff", // Gris suave
@@ -62,6 +65,7 @@ const COLORS = [
   "#ff786cff", // Verde medio
 ];
 
+// Estilos visuales declarados con StyleSheet para toda la pantalla y los componentes
 const styles = StyleSheet.create({
   container: {
     flex: 1,
