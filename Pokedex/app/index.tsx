@@ -18,11 +18,19 @@ import useApi from "./hooks/useApi"; // Hook personalizado para llamadas a APIs
 
 // Componente principal de la HomePage
 export default function Home() {
+<<<<<<< Updated upstream
   const router = useRouter(); // Hook de navegación
   const { isConnected } = useNetworkStatus(); // Estado de conexión a internet
   const { data: types } = useApi(() => getTypes(), []); // Llama a API para traer tipos
   const [query, setQuery] = useState(""); // Estado para el texto de búsqueda
   const { favorites, favoritesData } = useFavorites(); // Favoritos y sus datos completos
+=======
+  const router = useRouter();
+  const { isConnected } = useNetworkStatus();
+  const { data: types } = useApi(() => getTypes(), []);
+  const [query, setQuery] = useState(""); /* useState: guarda estado local en componentes funcionales */
+  const { favorites, favoritesData } = useFavorites();
+>>>>>>> Stashed changes
 
 // Función para buscar un Pokémon por nombre/ID
   const onSearch = () => {

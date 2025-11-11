@@ -1,5 +1,6 @@
 // app/regions.tsx
 import React from "react";
+<<<<<<< Updated upstream
 // Importa React para crear el componente funcional
 import { View, 
         Text, 
@@ -8,6 +9,14 @@ import { View,
         StyleSheet } from "react-native";
 // Importa componentes básicos de React Native para UI
 import { useRouter } from "expo-router"; // Importa el hook de navegación de Expo Router
+=======
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+
+/**
+ * Lista de regiones.
+ */
+>>>>>>> Stashed changes
 
 // Define las regiones Pokémon con su clave, etiqueta y ID de Pokédex
 const REGION_TO_POKEDEX: { key: string; label: string; id: number }[] = [
